@@ -1,6 +1,24 @@
-/*
- * Create a list that holds all of your cards
- */
+
+const cards =
+[
+"fa-anchor",
+"fa-bicycle",
+"fa-bolt",
+"fa-bomb",
+"fa-cube",
+"fa-diamond",
+"fa-leaf",
+"fa-paper-plane-o"
+]
+
+let deck = $('deck');
+
+
+<ul class="deck">
+    <li class="card">
+        <i class="fa fa-diamond"></i>
+    </li>
+
 
 
 /*
