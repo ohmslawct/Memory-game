@@ -8,16 +8,101 @@ const cards =
 "fa-cube",
 "fa-diamond",
 "fa-leaf",
+"fa-paper-plane-o",
+"fa-anchor",
+"fa-bicycle",
+"fa-bolt",
+"fa-bomb",
+"fa-cube",
+"fa-diamond",
+"fa-leaf",
 "fa-paper-plane-o"
 ]
 
-let deck = $('deck');
+const deck = $('.deck');
+const cardCount = 16;
+var clickedCards = [];
+var openCards = [];
+var moveCount = 0;
 
 
-<ul class="deck">
-    <li class="card">
-        <i class="fa fa-diamond"></i>
-    </li>
+shuffle(cards);
+
+for (let i=0; i<cardCount; i++){
+  deck.append(`
+    <li class="card" id=${i}>
+      <i class="fa ${cards[i]}"></i>
+   </li>`);
+}
+
+
+
+function showCard(clickedCard){
+    $(clickedCard).attr("class", "card open show");
+}
+
+function updateScore(){
+  moveCount++;
+  $("#score").text(moveCount);
+}
+
+function openCard(card){
+    card.attr("class", "card open show");
+}
+
+function closeCard(card){
+  card.removeClass("open show");
+  openCards = [];
+}
+
+function closeCard2(card){
+  card.removeClass("open show");
+  openCards = [];
+  console.log('here2');
+}
+
+
+$(".restart").on('click', function(){
+  window.location.reload();
+});
+
+
+// User clicks card
+
+$('li').on('click' , function(){
+
+  updateScore();
+  openCard($(this));
+
+  let clickedCardName = $(this).find('i');
+  let clickedCardId = "#" + $(this).attr('id');
+ console.log("Card Name: ", clickedCardName);
+// clickedCardId = "#0";
+
+  clickedCardName = clickedCardName.attr('class');
+
+
+if( $.inArray(clickedCardName, openCards)!="-1"  ){
+    openCard($(this));
+  console.log("Match!!");
+}else {
+console.log("ID: ", clickedCardId);
+    openCards.push(clickedCardName);
+    setTimeout(function(){ $(clickedCardId).removeClass("open show"); }, 400);
+
+
+  console.log("NO Match!!");
+}
+
+});
+
+
+
+// <li class="card">
+// <li class="card match">
+// <li class="card open show">
+
+
 
 
 
