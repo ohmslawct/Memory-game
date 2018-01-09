@@ -23,8 +23,27 @@ let clickedCards = [];
 let openCards = [];
 let moveCount = 0;
 let totalMatches = 0;
+let startTime = new Date();
 
 shuffle(cards);
+
+
+// Shuffle function from http://stackoverflow.com/a/2450976
+function shuffle(array) {
+  var currentIndex = array.length,
+    temporaryValue,
+    randomIndex;
+
+  while (currentIndex !== 0) {
+    randomIndex = Math.floor(Math.random() * currentIndex);
+    currentIndex -= 1;
+    temporaryValue = array[currentIndex];
+    array[currentIndex] = array[randomIndex];
+    array[randomIndex] = temporaryValue;
+  }
+
+  return array;
+}
 
 // assign cards to grid
 for (let i = 0; i < cardCount; i++) {
@@ -54,24 +73,49 @@ function openCard(card) {
 function closeCards(card1, card2){
   setTimeout(function() {
   $(card1).removeClass("open show");
-  }, 300);
+}, 200);
 
   setTimeout(function() {
     $(card2).removeClass("open show");
     openCards.splice(0, 2);
-  }, 600);
+  }, 400);
 }
 
-// reset
+// update clock and return elapsed time
+function updateClock(){
+  let elapsedTime = new Date() - startTime;
+      elapsedTime = Math.round( (elapsedTime / 1000),2);
+      $("#gameTime").text(elapsedTime);
+      return elapsedTime;
+}
+
+// remove stars based on click count
+function updateRating(){
+  if(moveCount>10){
+    $("#star3").removeClass("fa fa-star");
+  }
+  if(moveCount>20){
+    $("#star2").removeClass("fa fa-star");
+  }
+  if(moveCount>30){
+    $("#star1").removeClass("fa fa-star");
+  }
+
+}
+
+// reset game
 $(".restart").on('click', function() {
   window.location.reload();
 });
+
 
 // User clicks card
 $('li').on('click', function() {
 
   openCard($(this));
   updateScore();
+  updateRating();
+  updateClock();
 
   let clickedCardName = $(this).find('i');
       clickedCardName = clickedCardName.attr('class');
@@ -107,29 +151,16 @@ $('li').on('click', function() {
     }
   }
 
+// user finishes the game
   if (totalMatches == 8) {
     openCard($(this));
+    let totalTime = updateClock();
     setTimeout(function() {
-      alert(`Great Work! You won in ${moveCount} moves.`);
+      let endMessage = confirm(`Great Work! You won in ${moveCount} moves taking ${totalTime} seconds. Play again?`);
+      if (endMessage == true){
+        window.location.reload();
+      }
     },100);
   }
 
 });
-
-
-// Shuffle function from http://stackoverflow.com/a/2450976
-function shuffle(array) {
-  var currentIndex = array.length,
-    temporaryValue,
-    randomIndex;
-
-  while (currentIndex !== 0) {
-    randomIndex = Math.floor(Math.random() * currentIndex);
-    currentIndex -= 1;
-    temporaryValue = array[currentIndex];
-    array[currentIndex] = array[randomIndex];
-    array[randomIndex] = temporaryValue;
-  }
-
-  return array;
-}
