@@ -1,20 +1,18 @@
-# Memory Game Project
+# Gage's Memory Game
 
 ## Table of Contents
 
-* [Instructions](#instructions)
-* [Contributing](#contributing)
+* [Overview](#overview)
+* [Known Bugs](#known)
+* [Miscellany](#miscellany)
 
-## Instructions
+## Overview
+This is simple Javascript memory game.  Click on the cards to make matches.  
 
-The starter project has some HTML and CSS styling to display a static version of the Memory Game project. You'll need to convert this project from a static project to an interactive one. This will require modifying the HTML and CSS files, but primarily the JavaScript file.
 
-To get started, open `js/app.js` and start building out the app's functionality
+## Known Bugs
+-  App will break if user clicks cards rapidly. (Faster than the timeout for the cards to flip back.)
 
-For specific, detailed instructions, look at the project instructions in the [Udacity Classroom](https://classroom.udacity.com/me).
-
-## Contributing
-
-This repository is the starter code for _all_ Udacity students. Therefore, we most likely will not accept pull requests.
-
-For details, check out [CONTRIBUTING.md](CONTRIBUTING.md).
+## Miscellany
+The projects is based on the Udacity starter project: "fend-project-memory-game"
+[Udacity](https://www.udacity.com)

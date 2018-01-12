@@ -24,6 +24,7 @@ let openCards = [];
 let moveCount = 0;
 let totalMatches = 0;
 let startTime = new Date();
+let starRating = 3;
 
 shuffle(cards);
 
@@ -91,16 +92,18 @@ function updateClock(){
 
 // remove stars based on click count
 function updateRating(){
-  if(moveCount>10){
+  if(moveCount == 10){
     $("#star3").removeClass("fa fa-star");
+    starRating = starRating - 1;
   }
-  if(moveCount>20){
+  if(moveCount == 20){
     $("#star2").removeClass("fa fa-star");
+    starRating = starRating - 1;
   }
-  if(moveCount>30){
+  if(moveCount == 30){
     $("#star1").removeClass("fa fa-star");
+    starRating = starRating - 1;
   }
-
 }
 
 // reset game
@@ -156,7 +159,7 @@ $('li').on('click', function() {
     openCard($(this));
     let totalTime = updateClock();
     setTimeout(function() {
-      let endMessage = confirm(`Great Work! You won in ${moveCount} moves taking ${totalTime} seconds. Play again?`);
+      let endMessage = confirm(`Great Work! You won in ${moveCount} moves taking ${totalTime} seconds. Your star rating was ${starRating}. Play again?`);
       if (endMessage == true){
         window.location.reload();
       }
