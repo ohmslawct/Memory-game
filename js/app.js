@@ -25,9 +25,10 @@ let moveCount = 0;
 let totalMatches = 0;
 let startTime = new Date();
 let starRating = 3;
+let lastTwoCardIds = ["READY0","READY1"]
+
 
 shuffle(cards);
-
 
 // Shuffle function from http://stackoverflow.com/a/2450976
 function shuffle(array) {
@@ -92,18 +93,14 @@ function updateClock(){
 
 // remove stars based on click count
 function updateRating(){
-  if(moveCount == 10){
-    $("#star3").removeClass("fa fa-star");
-    starRating = starRating - 1;
-  }
-  if(moveCount == 20){
-    $("#star2").removeClass("fa fa-star");
-    starRating = starRating - 1;
-  }
-  if(moveCount == 30){
-    $("#star1").removeClass("fa fa-star");
-    starRating = starRating - 1;
-  }
+    if(moveCount == 10){
+      $("#star3").removeClass("fa fa-star");
+      starRating = starRating - 1;
+    }
+    if(moveCount == 20){
+      $("#star2").removeClass("fa fa-star");
+      starRating = starRating - 1;
+    }
 }
 
 // reset game
@@ -116,13 +113,15 @@ $(".restart").on('click', function() {
 $('li').on('click', function() {
 
   openCard($(this));
-  updateScore();
   updateRating();
   updateClock();
 
   let clickedCardName = $(this).find('i');
       clickedCardName = clickedCardName.attr('class');
+
   let clickedCardId = "#" + $(this).attr('id');
+  lastTwoCardIds.push(clickedCardId);
+  lastTwoCardIds.shift();
 
   var cardInfo = {
     cardId: "",
@@ -133,17 +132,22 @@ $('li').on('click', function() {
   cardInfo.cardName = clickedCardName;
   openCards.push(cardInfo);
 
+if(lastTwoCardIds[0] != lastTwoCardIds[1]){
+      updateScore();
+}
+
   // keep first card open
+
   if (openCards.length > 1) {
 
   // detect match on second click, but don't compare if user clicked the same card twice
     if (openCards[0].cardName == openCards[1].cardName && openCards[0].cardId != openCards[1].cardId) {
       openCards.splice(0, 2); // remove cards from the open cards array
       totalMatches++;
+
     }
   // if selections are not a match
     else {
-
       var cardInfo = {
         cardId: "",
         cardName: ""
